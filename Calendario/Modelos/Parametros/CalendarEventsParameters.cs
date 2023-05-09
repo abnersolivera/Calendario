@@ -1,4 +1,5 @@
-﻿namespace Calendario.Modelos.Parametros;
+﻿using Swagger.Net.Annotations;
+namespace Calendario.Modelos.Parametros;
 
 public class CalendarEventsParameters
 {
@@ -17,4 +18,10 @@ public class CalendarEventsParameters
     public bool ShowHiddenInvitations { get; set; }
     public bool SingleEvents { get; set; }
     public string SyncToken { get; set; }
+}
+
+public class EventsDateParameters
+{
+    public DateTime DataInicio { get; set; }
+    public DateTime DataFinal { get; set; }
 }
