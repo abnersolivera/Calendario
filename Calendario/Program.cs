@@ -17,6 +17,10 @@ services.AddScoped<GoogleCalendarAuthorization>();
 services.AddScoped<GoogleCalendarService>();
 services.AddScoped(_ => "Calendario");
 
+#region [Cors]
+services.AddCors();
+#endregion
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -26,9 +30,20 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
+app.UseRouting();
+
+#region [Cors]
+app.UseCors(c =>
+{
+    c.AllowAnyOrigin();
+    c.AllowAnyMethod();        
+    c.AllowAnyHeader();
+});
+#endregion
 
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

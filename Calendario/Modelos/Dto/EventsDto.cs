@@ -5,7 +5,7 @@
         public string Client { get; set; }
         public string Service { get; set; }
         public DateTime? DateService { get; set; } = null;
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
     }
 }
