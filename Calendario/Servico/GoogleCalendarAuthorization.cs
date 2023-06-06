@@ -6,14 +6,19 @@ namespace Calendario.Servico;
 
 public class GoogleCalendarAuthorization
 {
-    private readonly UserCredential _credential;
+    private readonly string _credential;
 
+
+    public GoogleCalendarAuthorization()
+    {
+        
+    }    
     public async Task<UserCredential> GetUserCredential()
     {
-        // Carregar as informações do arquivo de credencial
-        using var stream = new FileStream("credential.json", FileMode.Open, FileAccess.Read);
+        string filePath = Environment.GetEnvironmentVariable("CREDENCIAL_CALENDAR");
 
-        // Criar a instância de GoogleAuthorizationCodeFlow
+        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
         var clientSecrets = GoogleClientSecrets.Load(stream).Secrets;
         var scopes = new[] { CalendarService.Scope.Calendar };
         var dataStore = new FileDataStore("token", true);

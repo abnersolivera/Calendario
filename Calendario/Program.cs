@@ -17,8 +17,10 @@ services.AddScoped<GoogleCalendarAuthorization>();
 services.AddScoped<GoogleCalendarService>();
 services.AddScoped(_ => "Calendario");
 
+
+
 #region [Cors]
-services.AddCors();
+//services.AddCors();
 #endregion
 
 var app = builder.Build();
@@ -26,19 +28,19 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Calendario API V1");
 });
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
 #region [Cors]
-app.UseCors(c =>
-{
-    c.AllowAnyOrigin();
-    c.AllowAnyMethod();        
-    c.AllowAnyHeader();
-});
+//app.UseCors(c =>
+//{
+//    c.AllowAnyOrigin();
+//    c.AllowAnyMethod();        
+//    c.AllowAnyHeader();
+//});
 #endregion
 
 app.UseAuthorization();
