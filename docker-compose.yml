@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  calendario:
+    image: ${DOCKER_REGISTRY-}calendario
+    ports:
+        - "5000:5000"
+        - "5001:5001" 
+    build:
+      context: .
+      dockerfile: Calendario/Dockerfile
