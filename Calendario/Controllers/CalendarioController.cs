@@ -1,7 +1,6 @@
-﻿using Calendario.Servico;
+﻿using Calendario.Modelos.Parametros;
+using Calendario.Servico;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Calendario.Controllers
 {
@@ -39,11 +38,10 @@ namespace Calendario.Controllers
             return Ok(events);
         }
 
-        [HttpGet("Eventos")]
-        [SwaggerUI(SwaggerUIType.DatePicker, "dataInicio", "Data de início", "Selecione a data de início", "dataFinal", "Data final", "Selecione a data final")]
-        public async Task<IActionResult> GetTodosEventos(DateTime dataInicio, DateTime dataFinal)
+        [HttpGet("events")]
+        public async Task<IActionResult> GetTodosEventos([FromQuery] EventsDateParameters date)
         {
-            var events = _calendarService.GetEvents(dataInicio, dataFinal);
+            var events = _calendarService.GetEvents(date.DataInicio, date.DataFinal);
 
             return Ok(events);
         }

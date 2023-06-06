@@ -16,7 +16,7 @@ public class GoogleCalendarAuthorization
         // Criar a instância de GoogleAuthorizationCodeFlow
         var clientSecrets = GoogleClientSecrets.Load(stream).Secrets;
         var scopes = new[] { CalendarService.Scope.Calendar };
-        var dataStore = new FileDataStore("credential1.json", true);
+        var dataStore = new FileDataStore("token", true);
 
         var credential = await GoogleWebAuthorizationBroker
             .AuthorizeAsync(clientSecrets, scopes, "user", CancellationToken.None, dataStore)
