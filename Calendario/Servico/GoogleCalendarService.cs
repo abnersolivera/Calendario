@@ -4,7 +4,6 @@ using Calendario.Modelos.Model;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Calendar = Google.Apis.Calendar.v3.Data.Calendar;

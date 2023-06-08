@@ -6,25 +6,33 @@ namespace Calendario.Servico;
 
 public class GoogleCalendarAuthorization
 {
-    private readonly string _credential;
+    private readonly IConfiguration _configuration;
 
 
     public GoogleCalendarAuthorization()
     {
         
-    }    
+    }
+
+    public GoogleCalendarAuthorization(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     public async Task<UserCredential> GetUserCredential()
     {
-        string filePath = Environment.GetEnvironmentVariable("CREDENCIAL_CALENDAR");
-
-        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-
-        var clientSecrets = GoogleClientSecrets.Load(stream).Secrets;
+        var credencialCalendar = _configuration.GetSection("web");
+        var clientSecret = new ClientSecrets
+        {
+            ClientId = credencialCalendar.GetValue<string>("client_id"),
+            ClientSecret = credencialCalendar.GetValue<string>("client_secret") 
+        };
+        
         var scopes = new[] { CalendarService.Scope.Calendar };
         var dataStore = new FileDataStore("token", true);
 
         var credential = await GoogleWebAuthorizationBroker
-            .AuthorizeAsync(clientSecrets, scopes, "user", CancellationToken.None, dataStore)
+            .AuthorizeAsync(clientSecret, scopes, "user", CancellationToken.None, dataStore)
             .ConfigureAwait(false);
 
         return credential;
