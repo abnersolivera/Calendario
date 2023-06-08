@@ -1,51 +1,30 @@
-using Calendario.Servico;
-using Microsoft.OpenApi.Models;
+using Calendario.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var config = builder.Configuration;
 
 services.AddControllers();
 
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Calendar Google", Version = "v1" });
-});
+services.AddSwaggerGen();
+
+services.ConfigureIoC();
+
 services.AddHttpClient();
 
-services.AddScoped<GoogleCalendarAuthorization>();
-services.AddScoped<GoogleCalendarService>();
-services.AddScoped(_ => "Calendario");
+services.ConfigureApiDocumentationUI();
 
-
-
-#region [Cors]
-//services.AddCors();
-#endregion
+services.ConfigureCalendarService(config.GetSection("web"));
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Calendario API V1");
-});
+app.ConfigureApiDocumentationUI();
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
-#region [Cors]
-//app.UseCors(c =>
-//{
-//    c.AllowAnyOrigin();
-//    c.AllowAnyMethod();        
-//    c.AllowAnyHeader();
-//});
-#endregion
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 
 app.Run();
