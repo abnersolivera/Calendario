@@ -13,8 +13,9 @@ namespace Calendario.Servico;
 public class GoogleCalendarService
 {
     public readonly CalendarService _calendarService;
+    private readonly IConfiguration _configuration;
 
-    public GoogleCalendarService(string applicationName, GoogleCalendarAuthorization calendarAuthorization)
+    public GoogleCalendarService(string applicationName, GoogleCalendarAuthorization calendarAuthorization, IConfiguration configuration)
     {
         var userCredential = calendarAuthorization.GetUserCredential().Result;
         _calendarService = new CalendarService(new BaseClientService.Initializer()
@@ -22,6 +23,7 @@ public class GoogleCalendarService
             ApplicationName = applicationName,
             HttpClientInitializer = userCredential
         });
+        _configuration = configuration;
     }
 
     public IList<Event> GetEvents(string calendarId, int maxResults)
@@ -38,13 +40,10 @@ public class GoogleCalendarService
     {
         var calendarios = ListCalendars();
 
-        var listBlack = new List<string>()
-        {
-            "abnersanto2014@gmail.com",
-            "addressbook#contacts@group.v.calendar.google.com",
-            "39968cf28cb4d070d0fdfa9d68bffb81bc4591e3dd76355ca50d283736e3795a@group.calendar.google.com",
-            "c_hf2mevms7d4nrujdb28mu33qgc@group.calendar.google.com"
-        };
+        var list = _configuration.GetSection("list");
+        var listBlack = new List<string>();
+        listBlack.AddRange(list.Value.Split(','));
+
 
 
         var events = new List<Event>();
