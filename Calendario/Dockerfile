@@ -9,6 +9,7 @@ ENV ASPNETCORE_URLS=http://+:5000;http://+:5001
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Calendario/Calendario.csproj", "Calendario/"]
+COPY ["Calendario/token/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user","Calendario/"]
 RUN dotnet restore "Calendario/Calendario.csproj"
 COPY . .
 WORKDIR "/src/Calendario"

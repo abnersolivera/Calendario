@@ -6,8 +6,8 @@ var config = builder.Configuration;
 
 services.AddControllers();
 
-services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+services.AddEndpointsApiExplorer();
 
 services.ConfigureIoC();
 
@@ -21,7 +21,6 @@ var app = builder.Build();
 
 app.ConfigureApiDocumentationUI();
 
-app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();

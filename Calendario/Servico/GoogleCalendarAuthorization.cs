@@ -1,4 +1,5 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using Calendario.Modelos.Model;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
 
@@ -21,11 +22,11 @@ public class GoogleCalendarAuthorization
 
     public async Task<UserCredential> GetUserCredential()
     {
-        var credencialCalendar = _configuration.GetSection("web");
+        var credencialCalendar = _configuration.GetSection("web").Get<GoogleSecretsSettingsModel>();
         var clientSecret = new ClientSecrets
         {
-            ClientId = credencialCalendar.GetValue<string>("client_id"),
-            ClientSecret = credencialCalendar.GetValue<string>("client_secret") 
+            ClientId = credencialCalendar.client_id,
+            ClientSecret = credencialCalendar.client_secret 
         };
         
         var scopes = new[] { CalendarService.Scope.Calendar };
