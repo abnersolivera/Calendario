@@ -44,8 +44,6 @@ public class GoogleCalendarService
         var listBlack = new List<string>();
         listBlack.AddRange(list.Value.Split(','));
 
-
-
         var events = new List<Event>();
         var eventsDto = new List<EventsDto>();
         var servicos = new Dictionary<string, ServicosEntidades>();

@@ -5,7 +5,15 @@ services:
     image: ${DOCKER_REGISTRY-}calendario
     ports:
         - "5000:5000"
-        - "5001:5001" 
+        - "5001:5001"
+    networks:
+      - calendario_network
+    environment:
+        ASPNETCORE_URLS: "http://+:5000;http://+:5001"
     build:
       context: .
       dockerfile: Calendario/Dockerfile
+
+networks:
+  calendario_network:
+    driver: bridge
