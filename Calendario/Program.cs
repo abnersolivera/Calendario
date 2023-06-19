@@ -15,7 +15,7 @@ services.AddHttpClient();
 
 services.ConfigureApiDocumentationUI();
 
-services.ConfigureCalendarService(config.GetSection("web"));
+services.ConfigureGoogleAuthentication(config.GetSection("web"));
 
 var app = builder.Build();
 
@@ -23,6 +23,7 @@ app.ConfigureApiDocumentationUI();
 
 app.UseRouting();
 
+app.UseAuthorization();
 app.UseAuthorization();
 app.MapControllers();
 

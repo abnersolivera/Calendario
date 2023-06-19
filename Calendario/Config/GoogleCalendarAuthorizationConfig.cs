@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-
 namespace Calendario.Config;
 
 public static class GoogleCalendarAuthorizationConfig
 {
-    public static IServiceCollection ConfigureCalendarService(this IServiceCollection services, IConfigurationSection section)
+    public static IServiceCollection ConfigureGoogleAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddAuthentication(options =>
+        services
+        .AddAuthentication(googleOptions =>
         {
-            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            googleOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         })
-        .AddCookie(options =>
+        .AddCookie(googleOptions =>
         {
-            options.LoginPath = "/account/google-login";
+            googleOptions.LoginPath = "/account/google-login";
         })
-        .AddGoogle(options =>
-        {            
-            options.ClientId = section.GetValue<string>("client_id");
-            options.ClientSecret = section.GetValue<string>("client_secret");
+        .AddGoogle(googleOptions =>
+        {
+            googleOptions.ClientId = configuration["client_id"]!;
+            googleOptions.ClientSecret = configuration["client_secret"]!;
         });
+
         return services;
     }
+
 }

@@ -1,5 +1,6 @@
 ﻿using Calendario.Modelos.Dto;
 using Calendario.Modelos.Entidades;
+using Calendario.Modelos.Interface;
 using Calendario.Modelos.Model;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
@@ -10,14 +11,15 @@ using Calendar = Google.Apis.Calendar.v3.Data.Calendar;
 
 namespace Calendario.Servico;
 
-public class GoogleCalendarService
+public class GoogleCalendarService : IGoogleCalendarService
 {
     public readonly CalendarService _calendarService;
     private readonly IConfiguration _configuration;
 
-    public GoogleCalendarService(string applicationName, GoogleCalendarAuthorization calendarAuthorization, IConfiguration configuration)
+    public GoogleCalendarService(string applicationName, IGoogleCalendarAuthorization calendarAuthorization, IConfiguration configuration)
     {
         var userCredential = calendarAuthorization.GetUserCredential().Result;
+        var a = calendarAuthorization.GetUserCredentialConsole();
         _calendarService = new CalendarService(new BaseClientService.Initializer()
         {
             ApplicationName = applicationName,
