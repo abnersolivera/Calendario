@@ -1,4 +1,5 @@
-﻿using Calendario.Modelos.Parametros;
+﻿using Calendario.Modelos.Interface;
+using Calendario.Modelos.Parametros;
 using Calendario.Servico;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,14 +9,16 @@ namespace Calendario.Controllers
     [Route("[controller]")]
     public class CalendarioController : ControllerBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly GoogleCalendarService _calendarService;
 
-        public CalendarioController(HttpClient httpClient, GoogleCalendarService calendarService)
+        private readonly IGoogleCalendarService _calendarService;
+
+
+        public CalendarioController(IGoogleCalendarService calendarService)
         {
-            _httpClient = httpClient;
             _calendarService = calendarService;
+
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAgendas()

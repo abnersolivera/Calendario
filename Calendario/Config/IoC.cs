@@ -1,4 +1,5 @@
-﻿using Calendario.Servico;
+﻿using Calendario.Modelos.Interface;
+using Calendario.Servico;
 
 namespace Calendario.Config
 {
@@ -7,8 +8,8 @@ namespace Calendario.Config
         public static void ConfigureIoC(this IServiceCollection services)
         {
 
-            services.AddScoped<GoogleCalendarAuthorization>();
-            services.AddScoped<GoogleCalendarService>();
+            services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
+            services.AddScoped<IGoogleCalendarAuthorization, GoogleCalendarAuthorization>();
             services.AddScoped(_ => "Calendario");
         }
     }
