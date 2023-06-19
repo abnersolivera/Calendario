@@ -5,6 +5,5 @@
         public string client_id { get; set; }
         public string client_secret { get; set;}
         public string redirect_uris { get; set; }
-        public string path { get; set;}
     }
 }
