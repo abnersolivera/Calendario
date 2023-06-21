@@ -2,6 +2,7 @@
 using Calendario.Modelos.Model;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
+using Google.Apis.Util;
 using Google.Apis.Util.Store;
 
 namespace Calendario.Servico;
@@ -42,14 +43,20 @@ public class GoogleCalendarAuthorization : IGoogleCalendarAuthorization
             ClientSecret = credencialCalendar.client_secret
         };
 
-        var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-            clientSecret,
-            new[] { CalendarService.Scope.Calendar },
-            "user",
-            System.Threading.CancellationToken.None,
-            new FileDataStore("Tokens")
-        ).Result;
+        var scopes = new[] { CalendarService.Scope.Calendar };
+
+        var dataStore = new FileDataStore("token", true);
+
+        var credential = await GoogleWebAuthorizationBroker
+            .AuthorizeAsync(clientSecret, scopes, "user", CancellationToken.None, dataStore)
+            .ConfigureAwait(false);
+
+        if (credential.Token.IsExpired(SystemClock.Default))
+        {
+            await credential.RefreshTokenAsync(CancellationToken.None);
+        }
 
         return credential;
     }
+
 }
