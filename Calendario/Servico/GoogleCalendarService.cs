@@ -18,8 +18,7 @@ public class GoogleCalendarService : IGoogleCalendarService
 
     public GoogleCalendarService(string applicationName, IGoogleCalendarAuthorization calendarAuthorization, IConfiguration configuration)
     {
-        var userCredential = calendarAuthorization.GetUserCredential().Result;
-        var a = calendarAuthorization.GetUserCredentialConsole();
+        var userCredential = calendarAuthorization.GetUserCredentialConsole().Result;
         _calendarService = new CalendarService(new BaseClientService.Initializer()
         {
             ApplicationName = applicationName,
